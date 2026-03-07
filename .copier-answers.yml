@@ -1,0 +1,17 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v0.2.3
+_src_path: gh:npikall/py-bootstrap
+author_email: nikolas.pikall@gmail.com
+author_fullname: Nikolas Pikall
+author_username: npikall
+ci_github: true
+ci_github_workflows:
+- Lint_Format
+- Release_GitHub
+ci_gitlab: false
+copyright_license: MIT
+docs_engine: zensical
+include_docs: true
+pre_commit: prek
+project_name: tiss-cli
+repo_name: tiss-cli
