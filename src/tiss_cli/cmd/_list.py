@@ -36,3 +36,17 @@ def cmd_list(args: Namespace) -> int:  # noqa: ARG001
         table.add_row(row[0].isoformat(), row[1], row[2])
     console.print(table)
     return ExitCode.OK
+
+
+def cmd_list_courses(args: Namespace) -> int:  # noqa: ARG001
+    data = TissData.read_from_data_dir()
+    console = Console()
+    table = Table(title="Courses")
+    table.add_column("Course")
+    table.add_column("Name")
+    for course in data.courses:
+        if course.course_name is None:
+            course.course_name = ""
+        table.add_row(course.course_number, course.course_name)
+    console.print(table)
+    return ExitCode.OK

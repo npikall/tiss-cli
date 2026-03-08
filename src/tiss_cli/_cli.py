@@ -5,7 +5,7 @@ from importlib.metadata import version
 
 from tiss_cli import name
 from tiss_cli._utils import ExitCode
-from tiss_cli.cmd import cmd_add, cmd_list, cmd_remove, cmd_sync
+from tiss_cli.cmd import cmd_add, cmd_list, cmd_list_courses, cmd_remove, cmd_sync
 
 type SubParser = _SubParsersAction[ArgumentParser]
 
@@ -27,6 +27,7 @@ def build_parser() -> ArgumentParser:
     register_list(subparsers)
     register_remove(subparsers)
     register_sync(subparsers)
+    register_list_courses(subparsers)
     return parser
 
 
@@ -47,6 +48,17 @@ def register_list(subparsers: SubParser) -> None:
     )
     parser.add_argument("-h", "-help", action="help")
     parser.set_defaults(func=cmd_list)
+
+
+def register_list_courses(subparsers: SubParser) -> None:
+    parser = subparsers.add_parser(
+        "list-courses",
+        aliases=["lc"],
+        help="List all tracked courses",
+        add_help=False,
+    )
+    parser.add_argument("-h", "-help", action="help")
+    parser.set_defaults(func=cmd_list_courses)
 
 
 def register_remove(subparsers: SubParser) -> None:
