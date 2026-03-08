@@ -6,7 +6,6 @@ __version__ = version(__name__)
 
 name = "tiss_cli"
 
+from tiss_cli._cli import main_cli
 
-def greet() -> str:
-    """Greet the User."""
-    return "Hello from tiss-cli"
+__all__ = ["main_cli"]
