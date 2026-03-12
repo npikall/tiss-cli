@@ -27,46 +27,48 @@ dependencies = [
   "pydantic>=2.12.5",
   "rich>=14.3.3",
 ]
-scripts.tiss = "tiss_cli:main_cli"
+[project.scripts]
+tiss = "tiss_cli:main_cli"
 
 [dependency-groups]
 # Unlike optional dependencies, development dependencies are local-only
 # and will not be included in the project requirements when
 # published to PyPI or other indexes
-dev = [ "pytest>=9.0.1", "pytest-cov>=7", "ruff>=0.14.14", "ty>=0.0.14" ]
-
+dev = [ "pytest>=9.0.1", "ruff>=0.14.14", "ty>=0.0.14" ]
 
 [tool.ruff]
 line-length = 88
 indent-width = 4
-format.indent-style = "space"
-format.quote-style = "double"
-format.line-ending = "auto"
-format.skip-magic-trailing-comma = false
-format.docstring-code-line-length = "dynamic"
-format.docstring-code-format = false
-lint.select = [ "ALL" ]
-lint.ignore = [
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+line-ending = "auto"
+skip-magic-trailing-comma = false
+docstring-code-line-length = "dynamic"
+docstring-code-format = false
+[tool.ruff.lint]
+select = [ "ALL" ]
+ignore = [
   "COM812", # missing-trailing-comma (may conflict with ruff formatter)
   "D203",   # incorrect-blank-line-before-class (conflicts with D211)
   "D213",   # multi-line-summary-second-line (conflicts with D212)
   "T201",
 ]
-lint.per-file-ignores."**/{tests}/*" = [ "ANN201", "D", "E402", "INP001", "S101" ]
-lint.per-file-ignores."__init__.py" = [ "E402" ]
-lint.fixable = [ "ALL" ]
-lint.unfixable = []
-
-[tool.pytest]
-ini_options.addopts = "--cov=tiss-cli --cov-report term-missing -rsx --verbose --color=yes"
-
-[tool.coverage.run]
-relative_files = true
+per-file-ignores."**/{tests}/*" = [ "ANN201", "D", "E402", "INP001", "S101" ]
+per-file-ignores."__init__.py" = [ "E402" ]
+fixable = [ "ALL" ]
+unfixable = []
 
 [tool.pyproject-fmt]
 table_format = "long"
-collapse_tables = ["project.authors"]
+collapse_tables = [ "project.authors" ]
 
+[tool.pytest]
+[tool.pytest.ini_options]
+addopts = "-rsx --verbose --color=yes"
+
+[tool.coverage.run]
+relative_files = true
 
 [tool.git-cliff.changelog]
 header = """
@@ -139,4 +141,3 @@ commit_parsers = [
 filter_commits = false
 topo_order = false
 sort_commits = "oldest"
-
