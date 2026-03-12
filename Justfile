@@ -6,7 +6,6 @@ _default:
     @just --list
 
 alias c := clean
-alias d := docs
 alias h := hooks
 alias i := info
 alias l := lint
@@ -113,11 +112,7 @@ update:
 dist:
     uv build
 
-# serve the documentation on localhost
-[group("dev")]
-docs:
-    uv sync --group docs
-    uv run zensical serve
+
 
 _ensure_clean:
     @git diff --quiet
