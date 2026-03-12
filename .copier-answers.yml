@@ -1,13 +1,18 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v0.2.3
+_commit: v0.2.7
 _src_path: gh:npikall/py-bootstrap
 author_email: nikolas.pikall@gmail.com
 author_fullname: Nikolas Pikall
 author_username: npikall
+changelog_tool: git-cliff
 ci_github: true
 ci_github_workflows:
 - Lint_Format
+- Documentation
+- Publish_PyPI
 - Release_GitHub
+- Test_Coverage
+- Test_Platforms
 ci_gitlab: false
 copyright_license: MIT
 docs_engine: zensical

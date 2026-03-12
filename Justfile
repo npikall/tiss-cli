@@ -1,3 +1,5 @@
+set windows-shell := ["powershell"]
+
 # Default command lists all available recipes
 [default]
 _default:
@@ -45,14 +47,14 @@ check arg="concise":
 # run the tests
 [group("test")]
 test *args:
-    uv run pytest tests/
+    uv run pytest tests/ {{ args }}
 
 # run the tests in different Python versions
 [group("test")]
 testall *args:
-    uv run --python=3.10 pytest
-    uv run --python=3.12 pytest
-    uv run --python=3.14 pytest
+    uv run --python=3.10 pytest {{ args }}
+    uv run --python=3.12 pytest {{ args }}
+    uv run --python=3.14 pytest {{ args }}
 
 # run the formatter, linter, typechecker and the tests
 [group("test")]
@@ -130,14 +132,14 @@ _set_version target:
     esac
     uv lock
 
-# write the changelog from commit messages (gh:pawamoy/git-changelog)
+# write the changelog from commit messages (https://git-cliff.org/)
 [group("chore")]
-changelog version=`uv version --short`:
-    uvx git-changelog -Tio CHANGELOG.md -B="{{ version }}" -c conventional
+changelog *args:
+    uvx git-cliff -o {{ args }}
 
 _commit_and_tag version=`uv version --short`:
     git add pyproject.toml uv.lock CHANGELOG.md
-    git commit -m "chore(release): bumped version to {{ version }}"
+    git commit -m "chore(release): bump version to {{ version }}"
     git tag -a "v{{ version }}"
 
 # make a new release [target:<major|minor|patch|...> or semver]
@@ -145,6 +147,6 @@ _commit_and_tag version=`uv version --short`:
 release target: test
     @just _ensure_clean
     @just _set_version {{ target }}
-    @just changelog
+    @just changelog --tag `uv version --short`
     @just _commit_and_tag
     @echo "{{ GREEN }}Release complete. Run 'git push && git push --tags'.{{ NORMAL }}"
