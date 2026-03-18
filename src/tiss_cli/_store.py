@@ -40,10 +40,9 @@ class TissData(BaseModel):
 
 
 def get_platformdirs() -> PlatformDirs:
-    return PlatformDirs(appname="tiss-cli")
+    return PlatformDirs(appname="tiss-cli", ensure_exists=True)
 
 
 def get_storage_filepath() -> Path:
     dirs = get_platformdirs()
-    dirs.user_data_path.mkdir(exist_ok=True, parents=True)
     return dirs.user_data_path / "storage.json"
