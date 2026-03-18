@@ -32,9 +32,10 @@ class TissData(BaseModel):
         storage.write_text(self.model_dump_json(indent=2))
 
     @staticmethod
-    def read_from_data_dir() -> "TissData":
-        storage: Path = get_storage_filepath()
-        if not storage.exists():
+    def read_from_data_dir(storage: Path | None = None) -> "TissData":
+        if storage is None:
+            storage: Path = get_storage_filepath()
+        if not storage.is_file():
             return TissData(courses=[])
         return TissData.model_validate_json(storage.read_bytes())
 

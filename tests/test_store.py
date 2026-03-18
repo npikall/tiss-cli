@@ -1,8 +1,9 @@
+from pathlib import Path
 from typing import TypedDict
 
 import pytest
 
-from tiss_cli._store import CourseData, TissData
+from tiss_cli._store import CourseData, TissData, get_platformdirs, get_storage_filepath
 
 
 class Case(TypedDict):
@@ -41,3 +42,25 @@ def test_TissData_contains_course_works_correctly():  # noqa: N802
     got = TissData(courses=[course_1])
     assert got.contains_course(course_1) is True
     assert got.contains_course(course_2) is False
+
+
+def test_TissData_read_from_data_dir_returns_correctly(tmp_path: Path):  # noqa: N802
+    storage = tmp_path / "storage.json"
+    storage.write_text('{"courses": [{"course_number":"123.123"}]}')
+
+    got = TissData.read_from_data_dir(storage)
+    assert len(got.courses) == 1
+    assert got.courses[0].course_number == "123.123"
+
+
+def test_get_platformdirs_returns_correct():
+    got = get_platformdirs()
+    assert got.appname == "tiss-cli"
+    assert got.user_data_path.exists()
+
+
+def test_get_storage_filepath_returns_correct():
+    given = get_platformdirs()
+    got = get_storage_filepath()
+    assert got.name == "storage.json"
+    assert given.user_data_path == got.parent
