@@ -6,6 +6,7 @@ _default:
     @just --list
 
 alias c := clean
+
 alias h := hooks
 alias i := info
 alias l := lint
@@ -68,13 +69,16 @@ ci python="3.12":
 hooks:
     uvx prek install
 
+# setup the workspace
+[group("dev")]
+dev: hooks venv
+
 # clean all build/compilation files and directories
 [group("dev")]
-clean: clean-build clean-pyc clean-test
+clean: _clean-build _clean-pyc _clean-test
 
 # remove build artifacts
-[private]
-clean-build:
+_clean-build:
     rm -fr build/
     rm -fr site/
     rm -fr dist/
@@ -83,16 +87,14 @@ clean-build:
     find . -name '*.egg' -exec rm -f {} +
 
 # remove Python file artifacts
-[private]
-clean-pyc:
+_clean-pyc:
     find . -name '*.pyc' -exec rm -f {} +
     find . -name '*.pyo' -exec rm -f {} +
     find . -name '*~' -exec rm -f {} +
     find . -name '__pycache__' -exec rm -fr {} +
 
 # remove test and coverage artifacts
-[private]
-clean-test:
+_clean-test:
     rm -f .coverage
     rm -fr htmlcov/
     rm -fr .pytest_cache
@@ -139,7 +141,7 @@ _commit_and_tag version=`uv version --short`:
 
 # make a new release [target:<major|minor|patch|...> or semver]
 [group("chore")]
-release target: test
+release target: ci
     @just _ensure_clean
     @just _set_version {{ target }}
     @just changelog --tag `uv version --short`
