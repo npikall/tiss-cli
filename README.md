@@ -1,6 +1,7 @@
 # tiss-cli
 
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
+![PyPI - Version](https://img.shields.io/pypi/v/miss-cli)
 
 `tiss-cli` is a minimal cli application that allows users to track exam dates easily
 from [tiss], the platform to register for exams at the TU Wien.
