@@ -12,6 +12,7 @@ alias i := info
 alias l := lint
 alias q := check
 alias t := test
+alias hi := hooks-install
 alias fmt := format
 
 # display the system/project information
@@ -66,38 +67,39 @@ ci python="3.12":
 
 # install the pre-commit hooks
 [group("dev")]
-hooks:
+hooks-install:
     uvx prek install
+
+# run the pre-commit hooks
+[group("dev")]
+hooks:
+    uvx prek run --all-files
 
 # setup the workspace
 [group("dev")]
-dev: hooks venv
+dev: hooks-install venv
 
-# clean all build/compilation files and directories
+# clean all build/compilation and cache files and directories
 [group("dev")]
-clean: _clean-build _clean-pyc _clean-test
-
-# remove build artifacts
-_clean-build:
-    rm -fr build/
-    rm -fr site/
-    rm -fr dist/
+clean:
+    rm -fr .cache/
+    rm -fr .coverage
     rm -fr .eggs/
-    find . -name '*.egg-info' -exec rm -fr {} +
+    rm -fr .pytest_cache/
+    rm -fr .ruff_cache/
+    rm -fr .venv/
+    rm -fr build/
+    rm -fr dist/
+    rm -fr htmlcov/
+    rm -fr init.just
+    rm -fr site/
     find . -name '*.egg' -exec rm -f {} +
-
-# remove Python file artifacts
-_clean-pyc:
+    find . -name '*.egg-info' -exec rm -fr {} +
     find . -name '*.pyc' -exec rm -f {} +
     find . -name '*.pyo' -exec rm -f {} +
     find . -name '*~' -exec rm -f {} +
+    find . -name '.DS_Store' -exec rm -fr {} +
     find . -name '__pycache__' -exec rm -fr {} +
-
-# remove test and coverage artifacts
-_clean-test:
-    rm -f .coverage
-    rm -fr htmlcov/
-    rm -fr .pytest_cache
 
 # install dependencies in local venv
 [group("dev")]
@@ -113,8 +115,6 @@ update:
 [group("dev")]
 dist:
     uv build
-
-
 
 _ensure_clean:
     @git diff --quiet
