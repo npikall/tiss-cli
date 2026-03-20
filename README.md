@@ -10,6 +10,20 @@ from [tiss], the platform to register for exams at the TU Wien.
 
 This project is not affiliated with TU Wien and only aims to support students plan their studies.
 
+## Installation
+
+In order to install the cli application run the following command:
+
+```bash
+# prefered
+uv tool install tiss-cli
+
+# legacy installation
+pip install tiss-cli
+```
+
+## Usage
+
 To start tracking exams, add courses first
 
 ```bash
