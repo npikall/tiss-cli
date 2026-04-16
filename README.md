@@ -22,6 +22,15 @@ uv tool install tiss-cli
 pip install tiss-cli
 ```
 
+If you don't have Python installed you might want to run:
+
+```bash
+curl -LsSf uvx.sh/tiss-cli/install.sh | sh
+
+# or on powershell
+powershell -ExecutionPolicy ByPass -c "irm https://uvx.sh/tiss-cli/install.ps1 | iex"
+```
+
 ## Usage
 
 To start tracking exams, add courses first
